@@ -8,12 +8,17 @@ namespace hertz {
 
 class Hertz final {
  public:
+  constexpr Hertz() noexcept
+    : numerator_(0)
+    , denominator_(1) {}
 
-  constexpr Hertz() noexcept : numerator_(0), denominator_(1) { }
+  constexpr explicit Hertz(std::int64_t const frequency) noexcept
+    : numerator_(frequency)
+    , denominator_(1) {}
 
-  constexpr explicit Hertz(std::int64_t const frequency) noexcept : numerator_(frequency), denominator_(1) { }
-
-  constexpr Hertz(std::int64_t const numerator, std::int64_t const denominator) noexcept : numerator_(numerator), denominator_(denominator) {
+  constexpr Hertz(std::int64_t const numerator, std::int64_t const denominator) noexcept
+    : numerator_(numerator)
+    , denominator_(denominator) {
     normalize();
   }
 
@@ -25,13 +30,9 @@ class Hertz final {
 
   ~Hertz() = default;
 
-  constexpr std::int64_t numerator() const noexcept {
-    return numerator_;
-  }
+  constexpr std::int64_t numerator() const noexcept { return numerator_; }
 
-  constexpr std::int64_t denominator() const noexcept {
-    return denominator_;
-  }
+  constexpr std::int64_t denominator() const noexcept { return denominator_; }
 
   constexpr Hertz& operator++() noexcept {
     numerator_ += denominator_;
@@ -39,7 +40,7 @@ class Hertz final {
   }
 
   constexpr Hertz operator++(int) noexcept {
-    Hertz temp {*this};
+    Hertz temp{*this};
     ++(*this);
     return temp;
   }
@@ -50,7 +51,7 @@ class Hertz final {
   }
 
   constexpr Hertz operator--(int) noexcept {
-    Hertz temp {*this};
+    Hertz temp{*this};
     --(*this);
     return temp;
   }
@@ -216,6 +217,6 @@ std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>&
   return os;
 }
 
-}  // namespace hertz
+} // namespace hertz
 
 #endif /* HERTZ_HERTZ_H_ */

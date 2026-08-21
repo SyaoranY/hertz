@@ -456,10 +456,8 @@ TEST(HertzTest, StreamInsertion) {
 
 namespace {
 
-template <typename... Ts>
-constexpr void ignore_unused(const Ts&...) noexcept
-{
-}
+template<typename... Ts>
+constexpr void ignore_unused(const Ts&...) noexcept {}
 
 constexpr Hertz UsedInCompileTime(Hertz h) {
   h++;
@@ -475,7 +473,7 @@ constexpr Hertz UsedInCompileTime(Hertz h) {
   return h;
 }
 
-}
+} // namespace
 
 TEST(HertzTest, ConstexprTest) {
   constexpr Hertz h1{0};
