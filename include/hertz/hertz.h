@@ -1,6 +1,7 @@
 #ifndef HERTZ_HERTZ_H_
 #define HERTZ_HERTZ_H_
 
+#include <assert.h>
 #include <cstdint>
 #include <ostream>
 
