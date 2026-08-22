@@ -21,11 +21,11 @@ class Hertz final {
  public:
   /**
    * @brief Constructs a zero-frequency value.
-  */
+   */
   constexpr Hertz() noexcept
     : numerator_(0)
     , denominator_(1) {}
-  
+
   /**
    * @brief Constructs an integer frequency.
    *
@@ -34,7 +34,7 @@ class Hertz final {
   constexpr explicit Hertz(std::int64_t const frequency) noexcept
     : numerator_(frequency)
     , denominator_(1) {}
-    
+
   /**
    * @brief Constructs a rational frequency.
    *
@@ -123,7 +123,7 @@ class Hertz final {
    * @param rhs Divisor.
    *
    * @pre rhs != 0
-  */
+   */
   constexpr Hertz& operator/=(std::int64_t const rhs) noexcept {
     assert(rhs != 0);
     denominator_ *= rhs;
@@ -139,7 +139,7 @@ class Hertz final {
    * keeps the denominator positive, and canonicalizes zero as 0/1.
    *
    * @pre denominator_ != 0
-   */  
+   */
   constexpr void normalize() noexcept {
     if (numerator_ == 0) {
       denominator_ = 1;
@@ -305,7 +305,7 @@ constexpr Hertz round(Hertz const& hertz) noexcept {
   std::int64_t remainder = hertz.numerator() % hertz.denominator();
   if (remainder > 0) {
     if (remainder >= hertz.denominator() - remainder) {
-        ++quotient;
+      ++quotient;
     }
   } else if (remainder < 0) {
     if (-remainder >= hertz.denominator() + remainder) {

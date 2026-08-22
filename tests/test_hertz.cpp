@@ -502,13 +502,13 @@ TEST(HertzTest, Round) {
   EXPECT_EQ(hertz::round(Hertz{-2}), Hertz{-2});
 
   // Positive values
-  EXPECT_EQ(hertz::round(Hertz{1, 4}), Hertz{0});   //  0.25 ->  0
-  EXPECT_EQ(hertz::round(Hertz{1, 2}), Hertz{1});   //  0.50 ->  1
-  EXPECT_EQ(hertz::round(Hertz{3, 4}), Hertz{1});   //  0.75 ->  1
+  EXPECT_EQ(hertz::round(Hertz{1, 4}), Hertz{0}); //  0.25 ->  0
+  EXPECT_EQ(hertz::round(Hertz{1, 2}), Hertz{1}); //  0.50 ->  1
+  EXPECT_EQ(hertz::round(Hertz{3, 4}), Hertz{1}); //  0.75 ->  1
 
-  EXPECT_EQ(hertz::round(Hertz{5, 4}), Hertz{1});   //  1.25 ->  1
-  EXPECT_EQ(hertz::round(Hertz{3, 2}), Hertz{2});   //  1.50 ->  2
-  EXPECT_EQ(hertz::round(Hertz{7, 4}), Hertz{2});   //  1.75 ->  2
+  EXPECT_EQ(hertz::round(Hertz{5, 4}), Hertz{1}); //  1.25 ->  1
+  EXPECT_EQ(hertz::round(Hertz{3, 2}), Hertz{2}); //  1.50 ->  2
+  EXPECT_EQ(hertz::round(Hertz{7, 4}), Hertz{2}); //  1.75 ->  2
 
   // Negative values
   EXPECT_EQ(hertz::round(Hertz{-1, 4}), Hertz{0});  // -0.25 ->  0
@@ -520,11 +520,11 @@ TEST(HertzTest, Round) {
   EXPECT_EQ(hertz::round(Hertz{-7, 4}), Hertz{-2}); // -1.75 -> -2
 
   // boundary
-  EXPECT_EQ(round(Hertz{49, 100}), Hertz{0});    //  0.49 ->  0
-  EXPECT_EQ(round(Hertz{51, 100}), Hertz{1});    //  0.51 ->  1
+  EXPECT_EQ(round(Hertz{49, 100}), Hertz{0}); //  0.49 ->  0
+  EXPECT_EQ(round(Hertz{51, 100}), Hertz{1}); //  0.51 ->  1
 
-  EXPECT_EQ(round(Hertz{-49, 100}), Hertz{0});   // -0.49 ->  0
-  EXPECT_EQ(round(Hertz{-51, 100}), Hertz{-1});  // -0.51 -> -1
+  EXPECT_EQ(round(Hertz{-49, 100}), Hertz{0});  // -0.49 ->  0
+  EXPECT_EQ(round(Hertz{-51, 100}), Hertz{-1}); // -0.51 -> -1
 }
 
 TEST(HertzTest, StreamInsertion) {
