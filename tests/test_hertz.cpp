@@ -330,15 +330,6 @@ TEST(HertzTest, DivisionAssignment) {
   EXPECT_EQ(&result, &value);
 }
 
-TEST(HertzTest, ModuloAssignment) {
-  Hertz value{7, 2};
-
-  Hertz& result = (value %= 2);
-
-  EXPECT_EQ(value, Hertz(1, 2));
-  EXPECT_EQ(&result, &value);
-}
-
 TEST(HertzTest, Addition) {
   const Hertz lhs{1, 2};
   const Hertz rhs{1, 3};
@@ -387,15 +378,6 @@ TEST(HertzTest, Division) {
 
   EXPECT_EQ(result, Hertz(2, 3));
   EXPECT_EQ(value, Hertz(4, 3));
-}
-
-TEST(HertzTest, Modulo) {
-  const Hertz value{7, 2};
-
-  const Hertz result = value % 2;
-
-  EXPECT_EQ(result, Hertz(1, 2));
-  EXPECT_EQ(value, Hertz(7, 2));
 }
 
 TEST(HertzTest, Comparision) {
@@ -587,7 +569,6 @@ constexpr Hertz UsedInCompileTime(Hertz h) {
   h -= h2;
   h *= 2;
   h /= 2;
-  h %= 2;
   return h;
 }
 
@@ -604,7 +585,6 @@ TEST(HertzTest, ConstexprTest) {
   constexpr Hertz h6 = h1 * 6;
   constexpr Hertz h7 = 6 * h1;
   constexpr Hertz h8 = h1 / 6;
-  constexpr Hertz h9 = h1 % 6;
   constexpr Hertz h10 = UsedInCompileTime(h1);
   constexpr bool b1 = (h1 == h2);
   constexpr bool b2 = (h1 != h2);
@@ -613,5 +593,5 @@ TEST(HertzTest, ConstexprTest) {
   constexpr bool b5 = (h1 > h2);
   constexpr bool b6 = (h1 >= h2);
 
-  ignore_unused(h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, b1, b2, b3, b4, b5, b6, n, d);
+  ignore_unused(h1, h2, h3, h4, h5, h6, h7, h8, h10, b1, b2, b3, b4, b5, b6, n, d);
 }

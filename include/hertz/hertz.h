@@ -83,11 +83,6 @@ class Hertz final {
     return *this;
   }
 
-  constexpr Hertz& operator%=(std::int64_t rhs) noexcept {
-    numerator_ %= rhs;
-    return *this;
-  }
-
  private:
   constexpr void normalize() noexcept {
     assert(denominator_ != 0);
@@ -150,12 +145,6 @@ constexpr Hertz operator*(std::int64_t const lhs, Hertz const& rhs) noexcept {
 constexpr Hertz operator/(Hertz const& lhs, std::int64_t const rhs) noexcept {
   Hertz result{lhs};
   result /= rhs;
-  return result;
-}
-
-constexpr Hertz operator%(Hertz const& lhs, std::int64_t const rhs) noexcept {
-  Hertz result{lhs};
-  result %= rhs;
   return result;
 }
 
