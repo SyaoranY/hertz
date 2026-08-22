@@ -416,15 +416,133 @@ TEST(HertzTest, Comparision) {
 }
 
 TEST(HertzTest, Floor) {
-  // TODO
+  {
+    Hertz h{0};
+    Hertz h2 = hertz::floor(h);
+    EXPECT_EQ(h2, Hertz{0});
+  }
+  {
+    Hertz h{1, 2};
+    Hertz h2 = hertz::floor(h);
+    EXPECT_EQ(h2, Hertz{0});
+  }
+  {
+    Hertz h{3, 2};
+    Hertz h2 = hertz::floor(h);
+    EXPECT_EQ(h2, Hertz{1});
+  }
+  {
+    Hertz h{4, 2};
+    Hertz h2 = hertz::floor(h);
+    EXPECT_EQ(h2, Hertz{2});
+  }
+  {
+    Hertz h{7, 3};
+    Hertz h2 = hertz::floor(h);
+    EXPECT_EQ(h2, Hertz{2});
+  }
+  {
+    Hertz h{-1, 2};
+    Hertz h2 = hertz::floor(h);
+    EXPECT_EQ(h2, Hertz{-1});
+  }
+  {
+    Hertz h{-3, 2};
+    Hertz h2 = hertz::floor(h);
+    EXPECT_EQ(h2, Hertz{-2});
+  }
+  {
+    Hertz h{-4, 2};
+    Hertz h2 = hertz::floor(h);
+    EXPECT_EQ(h2, Hertz{-2});
+  }
+  {
+    Hertz h{-7, 3};
+    Hertz h2 = hertz::floor(h);
+    EXPECT_EQ(h2, Hertz{-3});
+  }
 }
 
 TEST(HertzTest, Ceil) {
-  // TODO
+  {
+    Hertz h{0};
+    Hertz h2 = hertz::ceil(h);
+    EXPECT_EQ(h2, Hertz{0});
+  }
+  {
+    Hertz h{1, 2};
+    Hertz h2 = hertz::ceil(h);
+    EXPECT_EQ(h2, Hertz{1});
+  }
+  {
+    Hertz h{3, 2};
+    Hertz h2 = hertz::ceil(h);
+    EXPECT_EQ(h2, Hertz{2});
+  }
+  {
+    Hertz h{4, 2};
+    Hertz h2 = hertz::ceil(h);
+    EXPECT_EQ(h2, Hertz{2});
+  }
+  {
+    Hertz h{7, 3};
+    Hertz h2 = hertz::ceil(h);
+    EXPECT_EQ(h2, Hertz{3});
+  }
+  {
+    Hertz h{-1, 2};
+    Hertz h2 = hertz::ceil(h);
+    EXPECT_EQ(h2, Hertz{0});
+  }
+  {
+    Hertz h{-3, 2};
+    Hertz h2 = hertz::ceil(h);
+    EXPECT_EQ(h2, Hertz{-1});
+  }
+  {
+    Hertz h{-4, 2};
+    Hertz h2 = hertz::ceil(h);
+    EXPECT_EQ(h2, Hertz{-2});
+  }
+  {
+    Hertz h{-7, 3};
+    Hertz h2 = hertz::ceil(h);
+    EXPECT_EQ(h2, Hertz{-2});
+  }
 }
 
 TEST(HertzTest, Round) {
-  // TODO
+  // Zero
+  EXPECT_EQ(hertz::round(Hertz{0}), Hertz{0});
+
+  // Exact integers
+  EXPECT_EQ(hertz::round(Hertz{2}), Hertz{2});
+  EXPECT_EQ(hertz::round(Hertz{-2}), Hertz{-2});
+
+  // Positive values
+  EXPECT_EQ(hertz::round(Hertz{1, 4}), Hertz{0});   //  0.25 ->  0
+  EXPECT_EQ(hertz::round(Hertz{1, 2}), Hertz{1});   //  0.50 ->  1
+  EXPECT_EQ(hertz::round(Hertz{3, 4}), Hertz{1});   //  0.75 ->  1
+
+  EXPECT_EQ(hertz::round(Hertz{5, 4}), Hertz{1});   //  1.25 ->  1
+  EXPECT_EQ(hertz::round(Hertz{3, 2}), Hertz{2});   //  1.50 ->  2
+  EXPECT_EQ(hertz::round(Hertz{7, 4}), Hertz{2});   //  1.75 ->  2
+
+  // Negative values
+  EXPECT_EQ(hertz::round(Hertz{-1, 4}), Hertz{0});  // -0.25 ->  0
+  EXPECT_EQ(hertz::round(Hertz{-1, 2}), Hertz{-1}); // -0.50 -> -1
+  EXPECT_EQ(hertz::round(Hertz{-3, 4}), Hertz{-1}); // -0.75 -> -1
+
+  EXPECT_EQ(hertz::round(Hertz{-5, 4}), Hertz{-1}); // -1.25 -> -1
+  EXPECT_EQ(hertz::round(Hertz{-3, 2}), Hertz{-2}); // -1.50 -> -2
+  EXPECT_EQ(hertz::round(Hertz{-7, 4}), Hertz{-2}); // -1.75 -> -2
+
+  // boundary
+  EXPECT_EQ(round(Hertz{49, 100}), Hertz{0});    //  0.49 ->  0
+  EXPECT_EQ(round(Hertz{51, 100}), Hertz{1});    //  0.51 ->  1
+
+  EXPECT_EQ(round(Hertz{-49, 100}), Hertz{0});   // -0.49 ->  0
+  EXPECT_EQ(round(Hertz{-51, 100}), Hertz{-1});  // -0.51 -> -1
 }
 
 TEST(HertzTest, StreamInsertion) {

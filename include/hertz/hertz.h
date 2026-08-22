@@ -183,27 +183,35 @@ constexpr bool operator>=(Hertz const& lhs, Hertz const& rhs) noexcept {
   return !(lhs < rhs);
 }
 
-// TODO : Implement floor() function to round the Hertz value down to the nearest integer frequency.
 constexpr Hertz floor(Hertz const& hertz) noexcept {
   std::int64_t quotient = hertz.numerator() / hertz.denominator();
+  std::int64_t remainder = hertz.numerator() % hertz.denominator();
+  if (remainder < 0) {
+    --quotient;
+  }
   return Hertz(quotient);
 }
 
-// TODO : Implement ceil() function to round the Hertz value up to the nearest integer frequency.
 constexpr Hertz ceil(Hertz const& hertz) noexcept {
   std::int64_t quotient = hertz.numerator() / hertz.denominator();
-  if (hertz.numerator() % hertz.denominator() != 0) {
+  std::int64_t remainder = hertz.numerator() % hertz.denominator();
+  if (remainder > 0) {
     ++quotient;
   }
   return Hertz(quotient);
 }
 
-// TODO : Implement round() function to round the Hertz value to the nearest integer frequency.
 constexpr Hertz round(Hertz const& hertz) noexcept {
   std::int64_t quotient = hertz.numerator() / hertz.denominator();
   std::int64_t remainder = hertz.numerator() % hertz.denominator();
-  if (remainder * 2 >= hertz.denominator()) {
-    ++quotient;
+  if (remainder > 0) {
+    if (remainder >= hertz.denominator() - remainder) {
+        ++quotient;
+    }
+  } else if (remainder < 0) {
+    if (-remainder >= hertz.denominator() + remainder) {
+      --quotient;
+    }
   }
   return Hertz(quotient);
 }
