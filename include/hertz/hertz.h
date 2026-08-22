@@ -20,6 +20,7 @@ class Hertz final {
   constexpr Hertz(std::int64_t const numerator, std::int64_t const denominator) noexcept
     : numerator_(numerator)
     , denominator_(denominator) {
+    assert(denominator != 0);
     normalize();
   }
 
@@ -78,6 +79,7 @@ class Hertz final {
   }
 
   constexpr Hertz& operator/=(std::int64_t const rhs) noexcept {
+    assert(rhs != 0);
     denominator_ *= rhs;
     normalize();
     return *this;
@@ -85,8 +87,6 @@ class Hertz final {
 
  private:
   constexpr void normalize() noexcept {
-    assert(denominator_ != 0);
-
     if (numerator_ == 0) {
       denominator_ = 1;
       return;
