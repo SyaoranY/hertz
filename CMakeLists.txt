@@ -22,11 +22,11 @@ target_compile_features(Hertz INTERFACE cxx_std_14)
 if (HERTZ_BUILD_TESTS)
   enable_testing()
   include(FetchContent)
-  # GoogleTest is only a test dependency of hfsm.
-  # Do not install gtest/gmock together with hfsm.
+  # GoogleTest is only a test dependency.
+  # Do not install gtest/gmock together.
   set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
 
-  # hfsm currently uses GoogleTest only, not GoogleMock.
+  # Currently uses GoogleTest only, not GoogleMock.
   set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
 
   FetchContent_Declare(
