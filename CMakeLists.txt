@@ -41,7 +41,7 @@ if (HERTZ_BUILD_TESTS)
 
   add_executable(test_hertz)
   target_sources(test_hertz PRIVATE tests/test_hertz.cpp)
-  target_compile_options(test_hertz PRIVATE -Wall -Wextra -Wpedantic -Werror -O2 -g)
+  target_compile_options(test_hertz PRIVATE -Wall -Wextra -Wpedantic -Werror)
   target_link_libraries(test_hertz PRIVATE Hertz GTest::gtest_main)
   gtest_discover_tests(test_hertz)
 
