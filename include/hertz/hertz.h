@@ -53,14 +53,6 @@ class Hertz final {
     normalize();
   }
 
-  Hertz(Hertz const&) = default;
-  Hertz(Hertz&&) noexcept = default;
-
-  Hertz& operator=(Hertz const&) = default;
-  Hertz& operator=(Hertz&&) noexcept = default;
-
-  ~Hertz() = default;
-
   /**
    * @brief Returns the numerator of the normalized frequency value.
    *
