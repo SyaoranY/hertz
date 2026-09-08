@@ -31,6 +31,7 @@ jobs:
           cmake -S . -B build \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_CXX_COMPILER=g++ \
+            -DCMAKE_CXX_STANDARD=14 \
             -DHERTZ_BUILD_TESTS=ON
 
       - name: Configure Clang
@@ -39,6 +40,7 @@ jobs:
           cmake -S . -B build \
             -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_CXX_COMPILER=clang++ \
+            -DCMAKE_CXX_STANDARD=14 \
             -DHERTZ_BUILD_TESTS=ON
 
       - name: Build
