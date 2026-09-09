@@ -540,6 +540,143 @@ TEST(HertzTest, Round) {
   EXPECT_EQ(round(Hertz{-51, 100}), Hertz{-1}); // -0.51 -> -1
 }
 
+TEST(PeriodTest, ReturnsDurationDoubleByDefault) {
+  constexpr Hertz hertz{2};
+
+  static_assert(std::is_same<decltype(hertz::period(hertz)), std::chrono::duration<double>>::value, "");
+
+  auto const result = hertz::period(hertz);
+
+  EXPECT_DOUBLE_EQ(result.count(), 0.5);
+}
+
+TEST(PeriodTest, ConvertsFractionalFrequencyToDefaultPeriod) {
+  constexpr Hertz hertz{3, 2};
+
+  auto const result = hertz::period(hertz);
+
+  EXPECT_DOUBLE_EQ(result.count(), 2.0 / 3.0);
+}
+
+TEST(PeriodTest, ConvertsExactlyToIntegralMilliseconds) {
+  constexpr Hertz hertz{4};
+
+  auto const result = hertz::period<std::chrono::milliseconds>(hertz);
+
+  EXPECT_EQ(result.count(), 250);
+}
+
+TEST(PeriodTest, TruncatesIntegralMillisecondsTowardZero) {
+  constexpr Hertz hertz{60};
+
+  auto const result = hertz::period<std::chrono::milliseconds>(hertz);
+
+  EXPECT_EQ(result.count(), 16);
+}
+
+TEST(PeriodTest, ConvertsFractionalFrequencyToIntegralMilliseconds) {
+  constexpr Hertz hertz{3, 2};
+
+  auto const result = hertz::period<std::chrono::milliseconds>(hertz);
+
+  EXPECT_EQ(result.count(), 666);
+}
+
+TEST(PeriodTest, ConvertsToFloatingPointMilliseconds) {
+  using DoubleMilliseconds = std::chrono::duration<double, std::milli>;
+
+  constexpr Hertz hertz{60};
+
+  auto const result = hertz::period<DoubleMilliseconds>(hertz);
+
+  EXPECT_DOUBLE_EQ(result.count(), 1000.0 / 60.0);
+}
+
+TEST(PeriodTest, ConvertsToMicroseconds) {
+  constexpr Hertz hertz{60};
+
+  auto const result = hertz::period<std::chrono::microseconds>(hertz);
+
+  EXPECT_EQ(result.count(), 16666);
+}
+
+TEST(PeriodTest, ConvertsToNanoseconds) {
+  constexpr Hertz hertz{4};
+
+  auto const result = hertz::period<std::chrono::nanoseconds>(hertz);
+
+  EXPECT_EQ(result.count(), 250000000);
+}
+
+TEST(PeriodTest, ConvertsToCustomIntegralDuration) {
+  using HundredMilliseconds = std::chrono::duration<int, std::ratio<1, 10>>;
+
+  constexpr Hertz hertz{4};
+
+  auto const result = hertz::period<HundredMilliseconds>(hertz);
+
+  // 4 Hz -> 0.25 s
+  // one tick = 0.1 s
+  // 0.25 / 0.1 = 2.5 -> 2
+  EXPECT_EQ(result.count(), 2);
+}
+
+TEST(PeriodTest, ConvertsToCustomFloatingPointDuration) {
+  using HundredMilliseconds = std::chrono::duration<double, std::ratio<1, 10>>;
+
+  constexpr Hertz hertz{4};
+
+  auto const result = hertz::period<HundredMilliseconds>(hertz);
+
+  EXPECT_DOUBLE_EQ(result.count(), 2.5);
+}
+
+TEST(PeriodTest, ConvertsNegativeFrequency) {
+  constexpr Hertz hertz{-4};
+
+  auto const result = hertz::period<std::chrono::milliseconds>(hertz);
+
+  EXPECT_EQ(result.count(), -250);
+}
+
+TEST(PeriodTest, TruncatesNegativeIntegralDurationTowardZero) {
+  constexpr Hertz hertz{-60};
+
+  auto const result = hertz::period<std::chrono::milliseconds>(hertz);
+
+  EXPECT_EQ(result.count(), -16);
+}
+
+TEST(PeriodTest, DefaultPeriodIsConstexpr) {
+  constexpr Hertz hertz{2};
+
+  constexpr auto result = hertz::period(hertz);
+
+  static_assert(result.count() == 0.5, "");
+
+  EXPECT_DOUBLE_EQ(result.count(), 0.5);
+}
+
+TEST(PeriodTest, IntegralPeriodIsConstexpr) {
+  constexpr Hertz hertz{4};
+
+  constexpr auto result = hertz::period<std::chrono::milliseconds>(hertz);
+
+  static_assert(result.count() == 250, "");
+
+  EXPECT_EQ(result.count(), 250);
+}
+
+TEST(PeriodTest, FractionalFrequencyConversionIsConstexpr) {
+  constexpr Hertz hertz{3, 2};
+
+  constexpr auto result = hertz::period<std::chrono::milliseconds>(hertz);
+
+  static_assert(result.count() == 666, "");
+
+  EXPECT_EQ(result.count(), 666);
+}
+
 TEST(HertzTest, StreamInsertion) {
   {
     std::ostringstream oss;

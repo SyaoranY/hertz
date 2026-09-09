@@ -2,6 +2,7 @@
 #define HERTZ_HERTZ_H_
 
 #include <assert.h>
+#include <chrono>
 #include <cstdint>
 #include <ostream>
 
@@ -309,6 +310,40 @@ constexpr Hertz round(Hertz const& hertz) noexcept {
     }
   }
   return Hertz(quotient);
+}
+
+namespace detail {
+
+template<typename T>
+struct is_duration : std::false_type {};
+
+template<typename Rep, typename Period>
+struct is_duration<std::chrono::duration<Rep, Period>> : std::true_type {};
+
+} // namespace detail
+
+constexpr std::chrono::duration<double> period(Hertz const& hertz) noexcept {
+  assert(hertz.numerator() != 0);
+
+  return std::chrono::duration<double>{
+      static_cast<double>(hertz.denominator()) / static_cast<double>(hertz.numerator())
+  };
+}
+
+template<typename Duration>
+constexpr Duration period(Hertz const& hertz) noexcept {
+  static_assert(detail::is_duration<Duration>::value, "Duration must be a std::chrono::duration type");
+
+  assert(hertz.numerator() != 0);
+
+  using Rep = typename Duration::rep;
+  using Period = typename Duration::period;
+  using Calc = typename std::common_type<Rep, std::int64_t>::type;
+
+  const Calc count = static_cast<Calc>(hertz.denominator()) * static_cast<Calc>(Period::den) /
+      (static_cast<Calc>(hertz.numerator()) * static_cast<Calc>(Period::num));
+
+  return Duration{static_cast<Rep>(count)};
 }
 
 /**
