@@ -233,6 +233,10 @@ constexpr bool operator>=(Hertz const& lhs, Hertz const& rhs) noexcept {
   return !(lhs < rhs);
 }
 
+constexpr Hertz operator-(Hertz const& hertz) noexcept {
+  return Hertz{-hertz.numerator(), hertz.denominator()};
+}
+
 /**
  * @brief Rounds a frequency down to an integer frequency.
  *
@@ -397,6 +401,30 @@ std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>&
   os << " Hz";
   return os;
 }
+
+namespace literals {
+
+constexpr Hertz operator""_mHz(unsigned long long value) noexcept {
+  return Hertz{static_cast<std::int64_t>(value), 1000};
+}
+
+constexpr Hertz operator""_Hz(unsigned long long value) noexcept {
+  return Hertz{static_cast<std::int64_t>(value)};
+}
+
+constexpr Hertz operator""_kHz(unsigned long long value) noexcept {
+  return Hertz{static_cast<std::int64_t>(value) * 1'000};
+}
+
+constexpr Hertz operator""_MHz(unsigned long long value) noexcept {
+  return Hertz{static_cast<std::int64_t>(value) * 1'000'000};
+}
+
+constexpr Hertz operator""_GHz(unsigned long long value) noexcept {
+  return Hertz{static_cast<std::int64_t>(value) * 1'000'000'000};
+}
+
+}  // namespace literals
 
 } // namespace hertz
 

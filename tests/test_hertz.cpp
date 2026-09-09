@@ -410,6 +410,24 @@ TEST(HertzTest, Comparision) {
   EXPECT_GE(two_thirds, half);
 }
 
+TEST(HertzTest, UnaryMinus) {
+  EXPECT_EQ(-Hertz(60), Hertz(-60));
+  EXPECT_EQ(-Hertz(-60), Hertz(60));
+
+  EXPECT_EQ(-Hertz(3, 2), Hertz(-3, 2));
+  EXPECT_EQ(-Hertz(-3, 2), Hertz(3, 2));
+
+  EXPECT_EQ(-Hertz(0), Hertz(0));
+
+  constexpr Hertz value{3, 2};
+  constexpr Hertz result = -value;
+
+  static_assert(result.numerator() == -3, "");
+  static_assert(result.denominator() == 2, "");
+
+  EXPECT_EQ(result, Hertz(-3, 2));
+}
+
 TEST(HertzTest, Floor) {
   {
     Hertz h{0};
@@ -703,6 +721,66 @@ TEST(HertzTest, StreamInsertion) {
     EXPECT_EQ(oss.str(), "1/2 Hz");
   }
 }
+
+TEST(HertzLiteralTest, ConstructsMillihertz) {
+  using namespace hertz::literals;
+
+  constexpr auto value = 500_mHz;
+
+  static_assert(value == Hertz{1, 2}, "");
+  EXPECT_EQ(value, Hertz(1, 2));
+}
+
+TEST(HertzLiteralTest, ConstructsHertz) {
+  using namespace hertz::literals;
+
+  constexpr auto value = 60_Hz;
+
+  static_assert(value == Hertz{60}, "");
+  EXPECT_EQ(value, Hertz(60));
+}
+
+TEST(HertzLiteralTest, ConstructsKilohertz) {
+  using namespace hertz::literals;
+
+  constexpr auto value = 10_kHz;
+
+  static_assert(value == Hertz{10'000}, "");
+  EXPECT_EQ(value, Hertz(10'000));
+}
+
+TEST(HertzLiteralTest, ConstructsMegahertz) {
+  using namespace hertz::literals;
+
+  constexpr auto value = 100_MHz;
+
+  static_assert(value == Hertz{100'000'000}, "");
+  EXPECT_EQ(value, Hertz(100'000'000));
+}
+
+TEST(HertzLiteralTest, ConstructsGigahertz) {
+  using namespace hertz::literals;
+
+  constexpr auto value = 2_GHz;
+
+  static_assert(value == Hertz{2'000'000'000}, "");
+  EXPECT_EQ(value, Hertz(2'000'000'000));
+}
+
+TEST(HertzLiteralTest, NormalizesMillihertz) {
+  using namespace hertz::literals;
+
+  EXPECT_EQ(1000_mHz, 1_Hz);
+  EXPECT_EQ(1500_mHz, Hertz(3, 2));
+}
+
+TEST(HertzLiteralTest, SupportsNegativeValues) {
+  using namespace hertz::literals;
+
+  EXPECT_EQ(-60_Hz, Hertz(-60));
+  EXPECT_EQ(-500_mHz, Hertz(-1, 2));
+}
+
 
 namespace {
 
