@@ -138,6 +138,10 @@ class Hertz final {
       return;
     }
 
+    if (denominator_ == 1) {
+      return;
+    }
+
     std::int64_t divisor = gcd(numerator_, denominator_);
     numerator_ /= divisor;
     denominator_ /= divisor;

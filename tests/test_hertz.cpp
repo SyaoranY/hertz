@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <hertz/hertz.h>
+#include <limits>
 #include <sstream>
 
 using hertz::Hertz;
@@ -89,6 +90,18 @@ TEST(HertzTest, TwoParametersConstructor) {
     EXPECT_EQ(h.numerator(), 10);
     EXPECT_EQ(h.denominator(), 3);
   }
+}
+
+TEST(HertzTest, SupportsInt64MinWithUnitDenominator) {
+  constexpr auto min = std::numeric_limits<std::int64_t>::min();
+
+  constexpr Hertz hertz{min, 1};
+
+  static_assert(hertz.numerator() == min, "");
+  static_assert(hertz.denominator() == 1, "");
+
+  EXPECT_EQ(hertz.numerator(), min);
+  EXPECT_EQ(hertz.denominator(), 1);
 }
 
 TEST(HertzTest, CopyAndMove) {
