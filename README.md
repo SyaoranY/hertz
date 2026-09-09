@@ -1,5 +1,11 @@
 # Hertz
 
+[![CI](https://github.com/SyaoranY/hertz/actions/workflows/ci.yml/badge.svg)](https://github.com/SyaoranY/hertz/actions/workflows/ci.yml)
+![C++14](https://img.shields.io/badge/C%2B%2B-14-blue.svg)
+![header-only](https://img.shields.io/badge/header--only-yes-brightgreen.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/SyaoranY/hertz)](https://github.com/SyaoranY/hertz/releases)
+
 A lightweight, header-only C++14 library for representing and manipulating frequency values as exact rational numbers.
 
 ```cpp
