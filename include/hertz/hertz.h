@@ -322,6 +322,17 @@ struct is_duration<std::chrono::duration<Rep, Period>> : std::true_type {};
 
 } // namespace detail
 
+/**
+ * @brief Returns the period corresponding to a frequency.
+ *
+ * The period is returned in seconds using std::chrono::duration<double>.
+ *
+ * @param hertz Frequency value.
+ *
+ * @return The corresponding period in seconds.
+ *
+ * @pre hertz.numerator() != 0
+ */
 constexpr std::chrono::duration<double> period(Hertz const& hertz) noexcept {
   assert(hertz.numerator() != 0);
 
@@ -330,6 +341,20 @@ constexpr std::chrono::duration<double> period(Hertz const& hertz) noexcept {
   };
 }
 
+/**
+ * @brief Returns the period corresponding to a frequency as a specified duration type.
+ *
+ * If Duration::rep is an integral type, any fractional duration count is
+ * truncated toward zero.
+ *
+ * @tparam Duration std::chrono::duration type used for the result.
+ *
+ * @param hertz Frequency value.
+ *
+ * @return The corresponding period expressed as Duration.
+ *
+ * @pre hertz.numerator() != 0
+ */
 template<typename Duration>
 constexpr Duration period(Hertz const& hertz) noexcept {
   static_assert(detail::is_duration<Duration>::value, "Duration must be a std::chrono::duration type");

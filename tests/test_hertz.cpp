@@ -725,7 +725,7 @@ constexpr Hertz UsedInCompileTime(Hertz h) {
 } // namespace
 
 TEST(HertzTest, ConstexprTest) {
-  constexpr Hertz h1{0};
+  constexpr Hertz h1;
   constexpr Hertz h2{0};
   constexpr Hertz h3{1, 2};
   constexpr std::int64_t n = h1.numerator();
@@ -743,5 +743,12 @@ TEST(HertzTest, ConstexprTest) {
   constexpr bool b5 = (h1 > h2);
   constexpr bool b6 = (h1 >= h2);
 
-  ignore_unused(h1, h2, h3, h4, h5, h6, h7, h8, h10, b1, b2, b3, b4, b5, b6, n, d);
+  constexpr Hertz h11 = hertz::floor(h1);
+  constexpr Hertz h12 = hertz::ceil(h1);
+  constexpr Hertz h13 = hertz::round(h1);
+  constexpr auto p1 = hertz::period(h3);
+  constexpr auto p2 = hertz::period<std::chrono::milliseconds>(h3);
+  constexpr auto p3 = hertz::period<std::chrono::duration<double, std::milli>>(h3);
+
+  ignore_unused(h1, h2, h3, h4, h5, h6, h7, h8, h10, b1, b2, b3, b4, b5, b6, n, d, h11, h12, h13, p1, p2, p3);
 }
